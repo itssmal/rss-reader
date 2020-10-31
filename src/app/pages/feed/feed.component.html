@@ -1,0 +1,28 @@
+<div *ngIf="feed; else loader">
+  <button *ngIf="separateMode" nbButton hero shape="round" status="primary" class="mb-4" (click)="back()">Back</button>
+  <nb-card [size]="'medium'" status="info">
+    <nb-card-header class="source-title">
+      <div class="row w-100">
+        <div class="col-10 justify-content-start">
+          <a (click)="openFeed(feed)">
+            <h5>{{feed.feed.title | titlecase}}</h5>
+          </a>
+        </div>
+        <div class="col-2 justify-content-end m-auto text-right">
+          <a (click)="removeFeed(feed)">
+            <nb-icon icon="trash-outline" status="danger"></nb-icon>
+          </a>
+        </div>
+      </div>
+    </nb-card-header>
+    <nb-card-body>
+      <app-rss [rss]="feed"></app-rss>
+    </nb-card-body>
+  </nb-card>
+</div>
+
+<ng-template #loader>
+  <div class="d-flex justify-content-center">
+    <div class="spinner-grow text-primary" role="status"></div>
+  </div>
+</ng-template>

@@ -1,0 +1,68 @@
+<div *ngIf="alertText" class="position-fixed" style="z-index: 1">
+  <nb-alert status="danger" closable (close)="alertText = null">
+    {{alertText}}
+  </nb-alert>
+</div>
+
+<div class="d-flex w-100 flex-row mb-4 flex-wrap justify-content-between">
+    <h4 class="text-primary mb-0">Your News Feed</h4>
+    <div>
+      <button class="mr-1" nbButton hero status="warning" shape="round" (click)="openRSSDialog(dialog)">
+        <nb-icon icon="edit-2-outline" status="warning"></nb-icon>
+        New RSS Subscribe
+      </button>
+      <button nbButton hero status="success" shape="round" (click)="openPostDialog(dialog)">
+        <nb-icon icon="edit-2-outline" status="success"></nb-icon>
+        New Post
+      </button>
+    </div>
+</div>
+
+<div *ngIf="!isLoading; else loader">
+  <app-feed *ngFor="let feed of news; let i = index" [feed]="feed" (removedFeed)="removeFeed(i)"></app-feed>
+</div>
+
+<ng-template #dialog let-ref='dialogRef'>
+  <nb-card size="medium" [accent]="articleForm.valid ? 'success' : 'danger'" >
+    <nb-card-header>
+      <h4>{{creatingRSS ? 'New RSS' : 'New Post'}}</h4>
+    </nb-card-header>
+    <nb-card-body>
+      <form *ngIf="creatingRSS" [formGroup]="rssForm">
+        <div class="row">
+          <label for="shortTitle">Short Title</label>
+          <input type="text" nbInput shape="round" formControlName="shortTitle" id="shortTitle">
+        </div>
+        <div class="row">
+          <label for="link">Link</label>
+          <input type="text" nbInput shape="round" formControlName="link" id="link">
+        </div>
+      </form>
+      <form *ngIf="!creatingRSS" [formGroup]="articleForm">
+        <div class="row">
+          <label for="title">Title</label>
+          <input type="text" nbInput shape="round" formControlName="title" id="title">
+        </div>
+        <div class="row">
+          <label for="body">Content</label>
+          <textarea nbInput shape="round" id="body" style="height: 13em" formControlName="body"></textarea>
+        </div>
+      </form>
+    </nb-card-body>
+    <nb-card-footer>
+      <button nbButton shape="round" outline status="danger" class="mx-2" (click)="ref.close()">Close</button>
+      <button nbButton shape="round" outline status="success" class="mx-2" (click)="ref.close(onDialogClose())">Save</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+
+
+<ng-template #loader>
+  <div class="d-flex justify-content-center">
+    <div class="spinner-grow text-primary" role="status"></div>
+  </div>
+</ng-template>
+
+<ng-template [ngIf]="news.length === 0 && !isLoading">
+    <p>Seems like there are no more news</p>
+</ng-template>

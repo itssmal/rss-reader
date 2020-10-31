@@ -1,1 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@nebular/theme/styles/theming';
+@import '~@nebular/theme/styles/themes/default';
+
+p {
+  margin-bottom: 0 !important;
+}
+
+

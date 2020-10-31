@@ -1,0 +1,33 @@
+<div *ngIf="article; else loader">
+  <button nbButton hero shape="round" status="primary" class="mb-4" (click)="back()">Back</button>
+  <nb-card accent="primary">
+    <nb-card-header>
+      <h4 class="text-primary">{{article.title}}</h4>
+      <p class="text-secondary">{{article.pubDate | date: 'hh:mm EEEE, MMMM d,' }}</p>
+    </nb-card-header>
+    <nb-card-body>
+      <div class="row">
+        <div class="col" *ngIf="article.enclosure?.type?.includes('image')">
+          <img class="shadow" [src]="article.enclosure?.link" alt="">
+        </div>
+        <div class="col my-5" [innerHTML]="article.description"></div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer *ngIf="article.author || article.link">
+      <div class="row">
+        <div class="col" *ngIf="article.link">
+          <a [href]="article.link" target="_blank">View More</a>
+        </div>
+        <div class="col">
+          <p class="text-right text-secondary">By: {{article.author}}</p>
+        </div>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</div>
+
+<ng-template #loader>
+  <div class="d-flex justify-content-center">
+    <div class="spinner-grow text-primary" role="status"></div>
+  </div>
+</ng-template>

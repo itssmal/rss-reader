@@ -1,0 +1,14 @@
+<nb-list>
+  <nb-list-item *ngFor="let item of rss.items">
+    <div class="row w-100">
+      <div class="col-9">
+        <a (click)="openArticle(item)">
+          <p class="text-primary">{{item.title}}</p>
+        </a>
+      </div>
+      <div class="col-3">
+        <p class="text-secondary text-right">{{item.pubDate | date: 'hh:mm, MMMM dd'}}</p>
+      </div>
+    </div>
+  </nb-list-item>
+</nb-list>
